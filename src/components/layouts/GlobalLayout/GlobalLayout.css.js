@@ -44,3 +44,7 @@ export const footer = style({
   fontSize: "12px",
   textAlign: "center",
 });
+
+export const footerLogo = style({
+  display: "inline-flex",
+});

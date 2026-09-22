@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { Noto_Sans_KR } from "next/font/google";
 import Link from "next/link";
 import * as styles from "./GlobalLayout.css.js";
+import Image from "next/image.js";
 
 const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
@@ -18,7 +19,23 @@ export default function GlobalLayout({ children }) {
       </header>
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
-        <p>YOUR_ID</p>
+        <a
+          className={styles.footerLogo}
+          href="https://www.themoviedb.org"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Image
+            src="/images/tmdb-logo.svg"
+            width={44}
+            height={44}
+            alt="TMDB"
+          />
+        </a>
+        <p>
+          This product uses the TMDB API but is not endorsed or certified by
+          TMDB.
+        </p>
       </footer>
     </div>
   );
