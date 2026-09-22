@@ -1,22 +1,23 @@
-import * as styles from '@/styles/home.css.js';
-import Link from 'next/link';
-import { useState } from 'react';
+import { SearchLayout } from "@/components/layouts/SearchLayout";
+import * as styles from "@/styles/home.css.js";
+import Link from "next/link";
+import { useState } from "react";
 
-export default function HomePage(){
+export default function HomePage() {
   const [recommendation, setRecommendation] = useState(null);
 
   const fetchRecommendation = async () => {
     try {
-      const res = await fetch('/api/recommend');
-      if(!res.ok){
-        throw new Error('추천영화 요청에 실패했습니다')
+      const res = await fetch("/api/recommend");
+      if (!res.ok) {
+        throw new Error("추천영화 요청에 실패했습니다");
       }
       const data = await res.json();
       setRecommendation(data);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -33,5 +34,7 @@ export default function HomePage(){
         <Link href="/search">검색 페이지로 이동하기</Link>
       </div>
     </div>
-  )
+  );
 }
+
+HomePage.getLayout = (page) => <SearchLayout>{page}</SearchLayout>;

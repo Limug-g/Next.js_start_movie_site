@@ -1,3 +1,4 @@
+import { SearchLayout } from "@/components/layouts/SearchLayout";
 import { useRouter } from "next/router";
 
 export default function SearchPage() {
@@ -8,3 +9,5 @@ export default function SearchPage() {
 
   return <h1>Search: {q}</h1>;
 }
+
+SearchPage.getLayout = (page) => <SearchLayout>{page}</SearchLayout>
