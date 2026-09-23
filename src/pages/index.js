@@ -1,38 +1,43 @@
 import { SearchLayout } from "@/components/layouts/SearchLayout";
 import * as styles from "@/styles/home.css.js";
-import Link from "next/link";
-import { useState } from "react";
+import movies from '@/mock/movies.json'
+import { MovieItem } from "@/components/MovieItem";
 
 export default function HomePage() {
-  const [recommendation, setRecommendation] = useState(null);
+  // const [recommendation, setRecommendation] = useState(null);
 
-  const fetchRecommendation = async () => {
-    try {
-      const res = await fetch("/api/recommend");
-      if (!res.ok) {
-        throw new Error("추천영화 요청에 실패했습니다");
-      }
-      const data = await res.json();
-      setRecommendation(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchRecommendation = async () => {
+  //   try {
+  //     const res = await fetch("/api/recommend");
+  //     if (!res.ok) {
+  //       throw new Error("추천영화 요청에 실패했습니다");
+  //     }
+  //     const data = await res.json();
+  //     setRecommendation(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>인생 영화를 찾아보세용!</h1>
+      <section>
+        <h2>지금 상영 중인 영화</h2>
+        <div className={styles.list}>
+          {movies.map((movie) => (
+            <MovieItem key={`now-playing-${movie.id}`} {...movie} />
+          ))}
+        </div>
+      </section>
 
-      <button onClick={fetchRecommendation} className={styles.button}>
-        추천 영화 보기
-      </button>
-      {recommendation && (
-        <div className={styles.result}>{recommendation.title}</div>
-      )}
-
-      <div className={styles.searchLink}>
-        <Link href="/search">검색 페이지로 이동하기</Link>
-      </div>
+      <section>
+        <h2>등록된 모든 영화</h2>
+        <div className={styles.list}>
+          {movies.map((movie) => (
+            <MovieItem key={`all-${movie.id}`} {...movie} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
