@@ -1,18 +1,11 @@
 import { SearchLayout } from "@/components/layouts/SearchLayout";
-import { useRouter } from "next/router";
-import movies from "@/mock/movies.json";
 import { MovieItem } from "@/components/MovieItem";
+import { fetchSearchMovies } from "@/lib/movie.server";
 
-export default function SearchPage() {
-  const router = useRouter();
-  const query = typeof router.query.q === "string" ? router.query.q : "";
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(query.toLowerCase()),
-  );
-
-  return (
+export default function SearchPage({movies}) {
+   return (
     <div>
-      {filteredMovies.map((movie) => (
+      {movies.map((movie) => (
         <MovieItem key={movie.id} {...movie} />
       ))}
     </div>
@@ -20,3 +13,12 @@ export default function SearchPage() {
 }
 
 SearchPage.getLayout = (page) => <SearchLayout>{page}</SearchLayout>;
+
+export async function getServerSideProps({ query }) {
+  const searchQuery = typeof query.q === "string" ? query.q : "";
+  const movies = searchQuery ? await fetchSearchMovies(searchQuery) : [];
+
+  return {
+    props: { movies },
+  };
+}
